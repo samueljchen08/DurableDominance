@@ -1,0 +1,16 @@
+def removeElement(nums, val):
+        """
+        :type nums: List[int]
+        :type val: int
+        :rtype: int
+        """
+        count = 0
+        length = len(nums)
+        for i in range(length):
+            if nums[length-1-i] == val:
+                nums.remove(val)
+                count +=1
+                nums.append("_")
+        return nums
+
+print(removeElement([0,1,2,2,3,0,4,2],2))
