@@ -1,9 +1,22 @@
-# Findings
+# Appendix — audit of the earlier analysis
 
-Reconstruction and audit of *Durable Dominance in Sports*. Every published
-figure reproduces from the raw data — the reproduction is faithful, and the
-problems found are in the metrics and the inference rather than in the code's
-arithmetic.
+*This is a methodological appendix, not the project's findings. The research
+itself is in [`DOMINANCE_FINDINGS.md`](DOMINANCE_FINDINGS.md).*
+
+Before building the current study, the earlier slide-deck analysis in this
+repo was reconstructed from the raw data to see which of its measures were
+safe to reuse. Every published figure reproduces exactly; the problems are in
+the metrics and the inference, not the arithmetic. Three findings shaped the
+main study's design:
+
+* **Use scale-free balance metrics.** The deck's "SD of win%" is
+  `sqrt(sum |w − .5|)`, which grows with league size; HHI of wins has a `1/n`
+  floor. Both are largely proxies for team count. The current study uses
+  Noll-Scully, Gini and the spread of fitted strength instead.
+* **Align on season labels, never on position.** A row-ordering bug paired
+  each NFL season's balance with a different season's dominance.
+* **Detrend before correlating.** Cumulative dominance counts rise with time
+  by construction, so they correlate with anything else that trends.
 
 ## 1. What reproduces
 

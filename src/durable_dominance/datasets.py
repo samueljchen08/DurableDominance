@@ -165,7 +165,10 @@ def load_masters() -> pd.DataFrame:
     )
     df = df.dropna(subset=["player", "season"]).copy()
     df["season"] = pd.to_numeric(df["season"], errors="coerce").astype("Int64")
-    df["position"] = pd.to_numeric(df["position"], errors="coerce")
+    # Ties are written "T5"; without stripping the prefix 84% of the field
+    # parses as NaN and every leaderboard collapses to a handful of players.
+    df["position"] = pd.to_numeric(
+        df["position"].astype(str).str.strip().str.lstrip("Tt"), errors="coerce")
     df["player"] = df["player"].astype(str).str.strip()
     return df.dropna(subset=["season"]).reset_index(drop=True)
 

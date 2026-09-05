@@ -1,5 +1,98 @@
 # Methods
 
+Two models live in this repo. The **championship model** below is what the
+current research uses. The **league-simulation model** further down came from
+the earlier analysis; it is kept because `scripts/04`-`07` still use it and its
+identifiability result is worth preserving.
+
+---
+
+# Part 1 — The championship model
+
+## Team strength
+
+Three estimators, in increasing order of how much they use:
+
+| Estimator | Definition | Notes |
+|---|---|---|
+| `win_pct_strength` | log-odds of the raw record | ignores schedule |
+| `mov_strength` | point margin × 0.143 | calibrated to Bradley-Terry units |
+| `bradley_terry` | penalised MLE on the head-to-head matrix | credits *who* you beat |
+
+Bradley-Terry sets `P(i beats j) = σ(β_i − β_j)` and is fitted by L-BFGS on the
+penalised log-likelihood. The ridge term keeps β finite when a team sweeps an
+opponent and pins the otherwise unidentified additive constant; strengths are
+returned centred at zero. The NBA head-to-head table is complete and mirrored
+(82 games per team, zero mismatches, exact reconciliation with the standings).
+
+All three give the same answer for the concentration test, which is the point
+of reporting all three.
+
+## The playoff random walk
+
+A best-of-7 is simulated as the **majority of all seven games** rather than
+first-to-four. With fixed per-game probabilities the two are distributionally
+identical, and simulating all seven vectorises cleanly. `tests/` checks the
+simulator against the closed-form Poisson-binomial probability at five
+parameter settings.
+
+Home court follows the 2-2-1-1-1 pattern (higher seed hosts games 1, 2, 5, 7)
+at 0.40 log-odds, roughly the NBA's historical 60% home win rate. Every season
+uses the same 16-team bracket, seeded 1v8 / 4v5 / 2v7 / 3v6 within conference.
+The real NBA seeded 12 teams before 1984 and reseeded by division for much of
+the 1980s; **holding the format constant is deliberate**, so an era-to-era
+difference reflects the teams rather than a rule change.
+
+## Calibration
+
+Every strength gap is scaled by a temperature γ, and γ is chosen to maximise
+the likelihood of the 43 champions that actually happened. The MLE is γ = 1.1,
+with the likelihood flat from 0.9 to 1.2 — the raw fitted gaps are already
+right. The reliability curve is the honest diagnostic and tracks the diagonal
+across all six probability bins.
+
+## The concentration test
+
+Sample 20,000 alternate 43-season leagues: one champion per season, drawn from
+that season's simulated distribution. Compare five concentration statistics of
+the real record against those distributions.
+
+**Why this is the right test.** The simulation uses each season's *real*
+strengths, so a dynasty's quality is fully priced in. Excess concentration is
+therefore not "the Lakers were good a lot" — it is that championship outcomes
+are correlated across seasons for the same franchise *beyond* measured
+strength. Calibration is a marginal property and concentration is a joint one,
+so a model can be perfectly calibrated per team-season and still under-produce
+dynasties. That gap is the object of study.
+
+## Champion pedigree
+
+Every pedigree measure is strictly backward-looking: history advances only
+*after* a season is recorded, so no season can see its own outcome. A test in
+`tests/test_dominance_research.py` asserts this directly.
+
+## Multiplicity and trends
+
+Study A runs 84 correlations from one dataset, so they are read against
+Benjamini-Hochberg q-values, not raw p. Both sides are detrended on year
+first: pedigree counts accumulate mechanically and league balance drifts with
+expansion, so an undetrended correlation can be two trends passing in the
+night.
+
+## Cross-sport comparison
+
+Field sizes range from 6 to 143, so each sport is scored against its own null:
+draw a champion uniformly from the field that actually competed that year,
+20,000 times, preserving the real sequence of field sizes. The **dominance
+multiple** is real HHI ÷ null HHI. Where the eligible field is unobservable —
+the Kentucky Derby, where a sire only competes in years he has three-year-olds
+running — the multiple is not interpretable and the sport is reported
+descriptively instead.
+
+---
+
+# Part 2 — The league-simulation model
+
 ## The model
 
 Each team draws a latent skill

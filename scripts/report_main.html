@@ -1,0 +1,608 @@
+<title>Durable Dominance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600;6..96,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#F2EFE8;
+  --surface:#FCFAF6;
+  --surface-2:#F6F2EA;
+  --ink:#1F1A13;
+  --ink-2:#544A3C;
+  --ink-3:#83786A;
+  --rule:#DCD4C6;
+  --rule-soft:#E8E2D6;
+  --gold:#A0701F;
+  --gold-soft:#F0E3C8;
+  --steel:#3A6A8C;
+  --steel-soft:#DDE7EE;
+  --pos:#7A6A18;
+  --neg:#8A4A2A;
+  --shadow:0 1px 2px rgba(31,26,19,.05), 0 10px 30px -18px rgba(31,26,19,.35);
+  --measure:68ch;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#12100C;
+    --surface:#1C1913;
+    --surface-2:#241F18;
+    --ink:#EDE6D9;
+    --ink-2:#B3A896;
+    --ink-3:#8A8071;
+    --rule:#332C22;
+    --rule-soft:#28221A;
+    --gold:#D6A44A;
+    --gold-soft:#3A2E15;
+    --steel:#7FAECC;
+    --steel-soft:#1C2B36;
+    --pos:#C8B54E;
+    --neg:#D98A63;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 34px -20px rgba(0,0,0,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#12100C;
+  --surface:#1C1913;
+  --surface-2:#241F18;
+  --ink:#EDE6D9;
+  --ink-2:#B3A896;
+  --ink-3:#8A8071;
+  --rule:#332C22;
+  --rule-soft:#28221A;
+  --gold:#D6A44A;
+  --gold-soft:#3A2E15;
+  --steel:#7FAECC;
+  --steel-soft:#1C2B36;
+  --pos:#C8B54E;
+  --neg:#D98A63;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 34px -20px rgba(0,0,0,.85);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink); margin:0;
+  font-family:Archivo,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.62; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1060px;margin:0 auto;padding:0 28px 96px}
+h1,h2,h3{font-family:"Bodoni Moda",Didot,Georgia,serif;text-wrap:balance;margin:0}
+p{margin:0 0 1.05em;max-width:var(--measure)}
+a{color:var(--ink);text-decoration-color:var(--gold);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:3px}
+code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.86em;
+  background:var(--surface-2);padding:.1em .36em;border-radius:3px;border:1px solid var(--rule-soft)}
+
+/* masthead */
+.mast{padding:66px 0 32px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:500;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 22px}
+h1{font-size:clamp(3rem,9vw,6.2rem);line-height:.92;font-weight:700;
+  letter-spacing:-.025em}
+.standfirst{font-size:1.18rem;line-height:1.55;color:var(--ink-2);
+  margin:26px 0 0;max-width:58ch}
+.standfirst b{color:var(--ink);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:0 30px;margin-top:28px;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3)}
+.meta b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+
+/* headline duel */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  gap:26px;margin:40px 0 8px;padding:30px 34px;background:var(--surface);
+  border:1px solid var(--rule);border-radius:12px;box-shadow:var(--shadow)}
+.duel-side{text-align:center}
+.duel-n{font-family:"Bodoni Moda",serif;font-size:clamp(3.4rem,9vw,5.4rem);
+  line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
+.duel-n.real{color:var(--gold)} .duel-n.sim{color:var(--steel)}
+.duel-lab{font-family:"IBM Plex Mono",monospace;font-size:11px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-top:10px}
+.duel-sub{font-size:.86rem;color:var(--ink-2);margin-top:6px}
+.duel-vs{font-family:"Bodoni Moda",serif;font-style:italic;font-size:1.5rem;
+  color:var(--ink-3)}
+@media (max-width:640px){.duel{grid-template-columns:1fr;gap:14px}
+  .duel-vs{display:none}}
+
+/* sections */
+section{padding-top:62px}
+.study{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px}
+h2.sec{font-size:clamp(1.7rem,3.6vw,2.4rem);font-weight:600;letter-spacing:-.015em;
+  line-height:1.12}
+.lede{font-size:1.07rem;color:var(--ink-2);margin:14px 0 0;max-width:62ch}
+h3{font-family:Archivo,sans-serif;font-size:1.06rem;font-weight:600;
+  margin:34px 0 10px;letter-spacing:-.003em}
+ul,ol{padding-left:1.15em;margin:0 0 1.05em;max-width:var(--measure)}
+li{margin-bottom:.45em}
+
+/* evidence */
+.ev{background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+  margin:26px 0;box-shadow:var(--shadow);overflow:hidden}
+.ev-head{padding:14px 20px;border-bottom:1px solid var(--rule-soft);
+  background:var(--surface-2);display:flex;justify-content:space-between;
+  align-items:baseline;gap:16px;flex-wrap:wrap}
+.ev-title{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2)}
+.ev-src{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3)}
+.ev-body{padding:6px 4px 4px;overflow-x:auto}
+.ev-note{padding:2px 20px 16px;font-size:.845rem;color:var(--ink-3);
+  line-height:1.52;max-width:80ch}
+
+table{border-collapse:collapse;width:100%;font-size:.885rem}
+th{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);text-align:right;
+  padding:10px 16px;border-bottom:1px solid var(--rule);white-space:nowrap}
+th:first-child,th.tl{text-align:left}
+td{padding:9px 16px;border-bottom:1px solid var(--rule-soft);text-align:right;
+  white-space:nowrap}
+td.tl{text-align:left;white-space:normal}
+td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+td.strong{font-weight:600;color:var(--gold)}
+td.pos{color:var(--pos);font-weight:600} td.neg{color:var(--neg);font-weight:600}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surface-2)}
+.barcell{width:110px;padding-left:0}
+.minibar{display:block;height:7px;border-radius:2px;background:var(--gold);min-width:2px}
+
+.pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;
+  font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:2.5px 8px;
+  border-radius:3px;white-space:nowrap}
+.pill--hold{background:var(--gold-soft);color:var(--gold)}
+.pill--fail{background:var(--steel-soft);color:var(--steel)}
+
+/* svg */
+.chart{width:100%;height:auto;display:block;padding:14px 16px 6px}
+.chart .grid{stroke:var(--rule-soft);stroke-width:1}
+.chart .axis{fill:var(--ink-3);font-family:"IBM Plex Mono",monospace;font-size:10px}
+.chart .ylab{fill:var(--ink-2);font-family:Archivo,sans-serif;font-size:12.5px}
+.chart .vlab{fill:var(--ink-3);font-family:"IBM Plex Mono",monospace;font-size:10.5px}
+.chart .vlab-real{fill:var(--gold);font-family:"IBM Plex Mono",monospace;
+  font-size:11px;font-weight:600}
+.chart .band{stroke:var(--steel);stroke-width:7;stroke-linecap:round;opacity:.32}
+.chart .dot-sim{fill:var(--steel)}
+.chart .dot-real{fill:var(--gold)}
+.chart .ideal{stroke:var(--ink-3);stroke-width:1.4;stroke-dasharray:4 3}
+.chart .relline{fill:none;stroke:var(--gold);stroke-width:2}
+.chart .bar-real{fill:var(--gold)}
+.legend{display:flex;gap:22px;padding:2px 20px 16px;font-size:.82rem;
+  color:var(--ink-2);flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:7px}
+.swatch{width:12px;height:12px;border-radius:50%;display:inline-block}
+.sw-real{background:var(--gold)} .sw-sim{background:var(--steel)}
+
+figure{margin:26px 0;background:var(--surface);border:1px solid var(--rule);
+  border-radius:11px;overflow:hidden;box-shadow:var(--shadow)}
+figure img{display:block;width:100%;height:auto;background:#fff}
+figcaption{padding:13px 20px;font-size:.83rem;color:var(--ink-3);line-height:1.5;
+  border-top:1px solid var(--rule-soft)}
+figcaption b{color:var(--ink-2);font-weight:500}
+
+.callout{border-left:3px solid var(--gold);background:var(--surface);
+  padding:18px 22px;margin:26px 0;border-radius:0 9px 9px 0;max-width:var(--measure)}
+.callout p:last-child{margin-bottom:0}
+.callout .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:block;
+  margin-bottom:8px}
+.callout--cool{border-left-color:var(--steel)}
+.callout--cool .k{color:var(--steel)}
+
+.formula{font-family:"IBM Plex Mono",monospace;font-size:1rem;text-align:center;
+  padding:22px 16px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:9px;margin:22px 0;overflow-x:auto;color:var(--ink)}
+.formula .hl{color:var(--gold);font-weight:600}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+
+footer{margin-top:80px;padding-top:26px;border-top:2px solid var(--ink);
+  font-size:.85rem;color:var(--ink-3)}
+footer h3{font-size:.95rem;margin:0 0 10px;font-family:Archivo,sans-serif}
+.foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
+@media (max-width:640px){.wrap{padding:0 18px 64px}.mast{padding-top:44px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">NBA · NCAA football · 1970–2023</p>
+  <h1>Durable<br>Dominance</h1>
+  <p class="standfirst">
+    Fourteen franchises won the last forty-three NBA championships. Run the
+    same seasons through a random walk driven by each team's own measured
+    strength and you get <b>twenty</b>. Championships are roughly twice as
+    concentrated as the teams' quality can explain — and the gap is a
+    multi-season effect, not playoff luck.
+  </p>
+  <div class="meta">
+    <span>NBA seasons <b>{{N_SEASONS}}</b></span>
+    <span>Team-seasons <b>{{N_TEAM_SEASONS}}</b></span>
+    <span>Head-to-head games <b>{{N_GAMES}}</b></span>
+    <span>Simulated leagues <b>20,000</b></span>
+    <span>Sports compared <b>7</b></span>
+  </div>
+</header>
+
+<div class="duel">
+  <div class="duel-side">
+    <div class="duel-n real">{{N_UNIQUE}}</div>
+    <div class="duel-lab">actually won</div>
+    <div class="duel-sub">distinct champions, 1981–2023</div>
+  </div>
+  <div class="duel-vs">vs</div>
+  <div class="duel-side">
+    <div class="duel-n sim">{{N_SIM_UNIQUE}}</div>
+    <div class="duel-lab">random walk expects</div>
+    <div class="duel-sub">median of 20,000 simulated leagues<br>95% interval {{SIM_LO}}–{{SIM_HI}}</div>
+  </div>
+</div>
+
+<div class="ev">
+  <div class="ev-head">
+    <span class="ev-title">Every NBA champion, 1981–2023</span>
+    <span class="ev-src">bar height = titles already won · colour = franchise</span>
+  </div>
+  <div class="ev-body">{{TIMELINE}}</div>
+  <p class="ev-note">The clustering is the phenomenon. Champions arrive already
+  decorated — the average winner holds {{MEAN_PRIOR_TITLES}} prior titles and
+  {{MEAN_PRIOR_TOP4}} prior top-four finishes, with a
+  {{MEAN_CAREER_WP}} career record. Only {{N_FIRST_TIME}} of 43 were
+  first-time winners.</p>
+</div>
+
+<section>
+  <span class="study">Study A</span>
+  <h2 class="sec">Do tight leagues crown veterans?</h2>
+  <p class="lede">Six measures of how decorated each champion was, against
+  eight measures of how balanced its league was that year. Eighty-four
+  correlations, so they are judged against a false-discovery correction rather
+  than raw p-values.</p>
+
+  <p>Both sides drift over time — pedigree counts accumulate mechanically,
+  and expansion changes the spread of records — so each pair is detrended on
+  year before testing. Of {{N_TESTS}} pairs, {{N_RAW_SIG}} are significant raw
+  and {{N_DET_SIG}} after detrending, against roughly four expected by chance.
+  Three survive Benjamini-Hochberg.</p>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">Surviving pedigree × balance correlations</span>
+      <span class="ev-src">pedigree_vs_balance.csv</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th class="tl">League</th><th class="tl">Champion pedigree</th>
+        <th class="tl">Balance measure</th><th>r detrended</th><th>q</th></tr></thead>
+        <tbody>{{ROWS_PED}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">Every surviving measure is oriented so a higher value
+    means a <em>less</em> balanced season. The positive sign therefore reads:
+    less competitive seasons crown more decorated champions. Imbalance and
+    entrenchment travel together — the opposite of the idea that competitive
+    balance reinforces an elite. Nothing survives in the NBA, whose champions
+    are decorated regardless of how tight the league was.</p>
+  </div>
+
+  <figure>
+    <img src="{{FIG_PEDIGREE}}" alt="Correlation heatmaps of champion pedigree against league balance for the NBA and NCAA football, raw and year-detrended">
+    <figcaption><b>All 84 correlations.</b> Raw on the left, year-detrended on
+    the right. Most of the raw colour is shared time trend; what remains is
+    concentrated in the NCAA football row.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <span class="study">Study B</span>
+  <h2 class="sec">Championships against a random walk</h2>
+  <p class="lede">A postseason is a short random walk. Each series is seven
+  weighted coin flips; win four and advance. Feed in each season's real
+  strengths and you get the title distribution a league <em>should</em>
+  produce if nothing carried across seasons except visible quality.</p>
+
+  <p>Strength comes from a Bradley-Terry fit to the complete head-to-head
+  matrix, so a team is credited for <em>who</em> it beat rather than only how
+  often it won. The matrix reconciles exactly with the standings — 82 games
+  per team, zero mismatches.</p>
+
+  <div class="formula">
+    P(i beats j) = σ( <span class="hl">β<sub>i</sub> − β<sub>j</sub></span> + home court )　·　series = best of 7
+  </div>
+
+  <h3>First, is the model any good?</h3>
+  <p>Scaling every strength gap by a temperature γ and maximising the
+  likelihood of the 43 champions that actually happened gives
+  <b>γ = {{GAMMA}}</b>. The raw fitted gaps are already right. The reliability
+  curve confirms it across the whole range, favourites included.</p>
+
+  <div class="grid2">
+    <div class="ev" style="margin-top:0">
+      <div class="ev-head"><span class="ev-title">Reliability</span>
+        <span class="ev-src">678 playoff team-seasons</span></div>
+      <div class="ev-body">{{RELIABILITY}}</div>
+      <p class="ev-note">Circle area is the number of team-seasons in each
+      probability bin. Points sitting on the dashed line mean the model's
+      stated confidence matches what happened.</p>
+    </div>
+    <div class="ev" style="margin-top:0">
+      <div class="ev-head"><span class="ev-title">Predicted vs. observed</span>
+        <span class="ev-src">playoff_reliability.csv</span></div>
+      <div class="ev-body">
+        <table>
+          <thead><tr><th>Predicted</th><th>Observed</th><th>n</th></tr></thead>
+          <tbody>{{ROWS_REL}}</tbody>
+        </table>
+      </div>
+      <p class="ev-note">The top bin: teams the model gave a 52% chance won
+      53% of the time.</p>
+    </div>
+  </div>
+
+  <h3>Then, how concentrated should the record be?</h3>
+  <p>Drawing 20,000 alternate 43-season leagues from the model and comparing
+  their concentration to the real one:</p>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">Real record against 20,000 simulated leagues</span>
+      <span class="ev-src">concentration_test.csv</span>
+    </div>
+    <div class="ev-body">{{STRIPS}}</div>
+    <div class="legend">
+      <span><i class="swatch sw-real"></i> what actually happened</span>
+      <span><i class="swatch sw-sim"></i> simulated median, bar = 95% interval</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th class="tl">Statistic</th><th>Real</th><th>Sim median</th>
+        <th>95% low</th><th>95% high</th><th>p</th></tr></thead>
+        <tbody>{{ROWS_CONC}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">All five statistics fall outside the 95% interval, all
+    in the same direction. Real title concentration is {{HHI_RATIO}}× the
+    simulated median. Back-to-back titles happen at {{REPEAT_REAL}} against a
+    predicted {{REPEAT_SIM}}.</p>
+  </div>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">Does the result depend on how strength is measured?</span>
+      <span class="ev-src">concentration_sensitivity.csv</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th class="tl">Strength estimator</th><th>Home court</th>
+        <th>Sim unique champions</th><th>p for HHI</th></tr></thead>
+        <tbody>{{ROWS_SENS}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">No. Three independent strength estimates, home court on
+    or off — the real value of 14 unique champions stays far below every
+    simulated median.</p>
+  </div>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">Converting strength into rings</span>
+      <span class="ev-src">title_conversion.csv</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th class="tl">Franchise</th><th>Expected titles</th>
+        <th>Actual</th><th>Excess</th></tr></thead>
+        <tbody>{{ROWS_CONV}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">The Suns earned 2.4 expected titles across four decades
+    and won none; the Lakers earned 4.9 and won ten. Read the aggregate test
+    above rather than this table — across 39 franchises, a largest |z| near
+    2.8 is roughly what chance alone produces.</p>
+  </div>
+
+  <figure>
+    <img src="{{FIG_WALK}}" alt="Six panels: temperature calibration, reliability, and the distributions of unique champions, title HHI and repeat rate against their real values">
+    <figcaption><b>The full test.</b> Calibration (top left and centre), then
+    the real value against the simulated distribution for each concentration
+    statistic. The gold line is reality in every panel.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <span class="study">Study C</span>
+  <h2 class="sec">Where does the excess come from?</h2>
+  <p class="lede">A puzzle: the simulation already uses real strengths, and
+  its per-season predictions are calibrated. So how can the 43-season record
+  be so much more concentrated?</p>
+
+  <div class="callout callout--cool">
+    <span class="k">The resolution</span>
+    <p>Calibration is a <em>marginal</em> property — each season's probability
+    is right on average. Concentration is a <em>joint</em> one. Both hold at
+    once if championship outcomes are positively correlated across seasons for
+    the same franchise, beyond what measured strength explains. That
+    correlation is exactly what durable dominance means, and it is what the
+    single-season model cannot contain.</p>
+  </div>
+
+  <h3>Quality is persistent — and already priced in</h3>
+  <p>Lag-1 autocorrelation of team strength is ρ = {{RHO}}, a half-life of
+  about 1.3 seasons. But within-franchise variation (SD 0.61) dwarfs
+  between-franchise variation (SD 0.23): franchises cycle rather than being
+  permanently good. And because the simulation uses each season's real
+  strengths, all of this is already inside it.</p>
+
+  <h3>Is beating your strength a stable trait?</h3>
+  <p>Splitting the record in half and correlating each franchise's excess
+  titles across the two halves gives <b>r = {{SPLIT_R}}, p = {{SPLIT_P}}</b>
+  across 28 franchises. Positive, but not significant — suggestive of a
+  persistent conversion skill, and well short of establishing one.</p>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">Is it one era?</span>
+      <span class="ev-src">concentration_by_era.csv</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th class="tl">Era</th><th>Seasons</th><th>Real unique</th>
+        <th>Simulated</th><th>p</th></tr></thead>
+        <tbody>{{ROWS_ERA}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">The effect is strongest in 1995–2009 and
+    <b>absent in 2010–2023</b>, where real and simulated counts are identical.
+    Durable dominance in the NBA looks like a 20th-century phenomenon the
+    modern league no longer shows. Individual eras are underpowered at 13–15
+    seasons, so the full-period test remains the primary one.</p>
+  </div>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">How large is the missing factor?</span>
+      <span class="ev-src">conversion_bonus_sweep.csv</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th>Franchise bonus SD</th><th>Unique champions</th>
+        <th>Title HHI</th></tr></thead>
+        <tbody>{{ROWS_SWEEP}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">Giving every franchise a fixed, persistent strength
+    bonus and sweeping its size, the observed concentration is reproduced at a
+    bonus SD of about <b>{{BONUS_SD}} log-odds</b> — roughly 57% of the
+    within-season spread of team strength itself ({{WITHIN_SD}}). That is a
+    large latent effect, which is itself a reason to treat the
+    single-hidden-trait story sceptically.</p>
+  </div>
+
+  <figure>
+    <img src="{{FIG_DYNASTY}}" alt="Four panels: distribution of strength autocorrelation, split-half over-performance, concentration by era, and the bonus sweep">
+    <figcaption><b>Four ways at the same question.</b> Strength persistence is
+    high but already modelled; over-performance is weakly stable; every era
+    points the same way; and the effect size needed to close the gap is large.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <span class="study">Study D</span>
+  <h2 class="sec">Can machine learning beat the physics?</h2>
+  <p class="lede">The simulation is a strong baseline: a generative model with
+  no learned parameters. Trained on 1980–2008 and tested on 2009–2023, can
+  learned models do better at naming the champion?</p>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">Predicting the champion, held-out seasons</span>
+      <span class="ev-src">678 playoff team-seasons · 43 champions</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th class="tl">Model</th><th>Log-loss (lower is better)</th>
+        <th>AUC</th></tr></thead>
+        <tbody>{{ROWS_ML}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">No. The random-walk simulation ({{SIM_LOGLOSS}}) ties
+    the best learned model ({{RF_LOGLOSS}}) and beats the rest. Handing the
+    simulation's own probability to a logistic regression as an extra feature
+    makes it <em>worse</em> — the simulation already contains what the other
+    features carry.</p>
+  </div>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">What predicts a title</span>
+      <span class="ev-src">permutation importance, held-out data</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th class="tl">Feature</th><th>Increase in log-loss</th>
+        <th class="barcell"></th></tr></thead>
+        <tbody>{{ROWS_IMP}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">Conference seed leads, then prior top-four finishes and
+    current-season quality. Prior titles contribute nothing and career win% is
+    <em>negative</em>: once you know how good a team is now, its history adds
+    no predictive value.</p>
+  </div>
+
+  <div class="callout">
+    <span class="k">The tension worth noticing</span>
+    <p>Study B says the aggregate record is more concentrated than strength
+    explains. Study D says you cannot predict <em>which</em> franchises will
+    beat their strength — a history-only model reaches AUC 0.54 out of sample,
+    and the correlation between prior titles and the simulation residual is
+    +0.06 (p = 0.37). Both results are real. Durable dominance shows up
+    reliably in the aggregate and dissolves when you ask it to name names.</p>
+  </div>
+
+  <figure>
+    <img src="{{FIG_ML}}" alt="Three panels comparing held-out log-loss and AUC across models, and permutation importance of each feature">
+    <figcaption><b>Physics versus learning.</b> The gold bar is the
+    simulation. On 460 training rows with 29 champions, the learned models have
+    little room to find anything the generative model has not already encoded.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <span class="study">Conclusions</span>
+  <h2 class="sec">What the record supports</h2>
+  <ol>
+    <li><b>Durable dominance is real and measurable.</b> NBA championships are
+    {{HHI_RATIO}}× more concentrated than the teams' own measured quality can
+    explain, and every sport tested is 1.7–3.1× more concentrated than chance
+    among its own field.</li>
+    <li><b>It is a multi-season effect, not playoff luck.</b> The single-season
+    model is well calibrated; what it misses is the correlation of outcomes
+    across seasons for the same franchise.</li>
+    <li><b>The mechanism is not identified.</b> Over-performance does not
+    replicate across halves of history (p = {{SPLIT_P}}) and is not predictable
+    out of sample. Continuity of personnel, elite teams coasting in the regular
+    season, playoff-specific quality, and a short 43-season record in which a
+    few unusual runs dominate the statistics all remain live.</li>
+    <li><b>Imbalance and entrenchment travel together</b> where detectable at
+    all, which is the opposite of the idea that competitive balance reinforces
+    an elite.</li>
+    <li><b>The modern NBA no longer shows it.</b> 2010–2023 matches its
+    simulation exactly.</li>
+  </ol>
+
+  <div class="callout">
+    <span class="k">What would settle it</span>
+    <p><b>Playoff series data.</b> Everything here infers postseason behaviour
+    from regular-season strength; actual series results would let the model be
+    tested where it matters rather than calibrated to one outcome per year.
+    <b>Roster continuity.</b> The leading candidate mechanism — dynasties
+    keeping personnel the standings cannot see — is directly measurable and
+    absent from this data. <b>More leagues with verified champions.</b> The
+    concentration test needs long records to have power, which is why the era
+    splits individually do not reach significance.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <h3>Method</h3>
+      <p>Bradley-Terry strengths by penalised MLE on the full head-to-head
+      matrix; 16-team bracket held constant across eras; best-of-7 as the
+      majority of seven weighted Bernoulli draws, which is exact.</p>
+    </div>
+    <div>
+      <h3>Verification</h3>
+      <p>22 tests in <code>tests/</code>, including the simulator checked
+      against the closed-form best-of-7 probability at five parameter settings,
+      and a check that no pedigree measure can see its own season.</p>
+    </div>
+    <div>
+      <h3>Companion</h3>
+      <p>The cross-sport comparison — cycling, golf, tennis, cricket, college
+      football and the Women's World Cup — is in the
+      <b>Cross-Sport Dominance Atlas</b>.</p>
+    </div>
+  </div>
+</footer>
+
+</div>

@@ -1,0 +1,7 @@
+task,model,auc,log_loss
+champion,Random-walk simulation,0.8904061624649859,0.17125015853763229
+champion,Random forest,0.8925070028011204,0.17165003518415295
+champion,Logistic regression,0.8693977591036415,0.1766612131464229
+champion,Logistic + simulation feature,0.8658963585434173,0.18019142926650786
+champion,Gradient boosting,0.8651960784313726,0.19896214299016662
+champion,Uniform over playoff field,0.5,0.2383462758353203
