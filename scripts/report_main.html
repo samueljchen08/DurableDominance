@@ -311,8 +311,11 @@ footer h3{font-size:.95rem;margin:0 0 10px;font-family:Archivo,sans-serif}
   <h3>First, is the model any good?</h3>
   <p>Scaling every strength gap by a temperature γ and maximising the
   likelihood of the 43 champions that actually happened gives
-  <b>γ = {{GAMMA}}</b>. The raw fitted gaps are already right. The reliability
-  curve confirms it across the whole range, favourites included.</p>
+  <b>γ = {{GAMMA}}</b> — the raw fitted gaps need no adjustment. The likelihood
+  is flat from {{GAMMA_LO}} to {{GAMMA_HI}}, so this pins the scale only
+  loosely; what matters is that 1.0 sits comfortably inside that range rather
+  than at an edge. The reliability curve is the sharper check, and it holds
+  across the whole range, favourites included.</p>
 
   <div class="grid2">
     <div class="ev" style="margin-top:0">

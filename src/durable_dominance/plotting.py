@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import warnings
 from pathlib import Path
 
 import matplotlib
@@ -68,8 +69,16 @@ def regression_scatter(ax, x, y, *, xlabel, ylabel, title, label=None,
 
 
 def save(fig, name: str) -> Path:
+    """Lay out, write to reports/figures, and close.
+
+    `tight_layout` runs here rather than in each script so multi-row grids
+    cannot collide a subplot title with the axis labels above it.
+    """
     FIGURES.mkdir(parents=True, exist_ok=True)
     path = FIGURES / name
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        fig.tight_layout()
     fig.savefig(path)
     plt.close(fig)
     return path

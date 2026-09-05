@@ -263,6 +263,7 @@ def build_main() -> Path:
 
     surv = ped[ped["q_detrended"] < 0.10].sort_values("q_detrended")
     best_g = cal.loc[cal["loglik"].idxmax(), "gamma"]
+    flat = cal[cal["loglik"] >= cal["loglik"].max() - 2]["gamma"]
     conv_r = conv.reset_index().rename(columns={"index": "team"})
     top_conv = pd.concat([conv_r.head(4), conv_r.tail(3)])
     imp_mx = imp["importance"].max()
@@ -286,6 +287,8 @@ def build_main() -> Path:
         "HHI_RATIO": f'{test.loc["hhi","real"]/test.loc["hhi","sim_median"]:.2f}',
         "P_ENTROPY": fmt_p(test.loc["entropy", "p_two_sided"]),
         "GAMMA": f"{best_g:.1f}",
+        "GAMMA_LO": f"{flat.min():.1f}",
+        "GAMMA_HI": f"{flat.max():.1f}",
         "REPEAT_REAL": f'{test.loc["repeat_rate","real"]:.3f}',
         "REPEAT_SIM": f'{test.loc["repeat_rate","sim_median"]:.3f}',
         "MEAN_PRIOR_TITLES": f'{panel["prior_titles"].mean():.1f}',

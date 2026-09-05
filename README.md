@@ -18,7 +18,7 @@ effect rather than playoff luck.
 |---|---|---|
 | **A** | Do tight leagues crown veterans? | 3 of 84 correlations survive FDR, all NCAA football, all pointing the same way: **less** balanced seasons crown more decorated champions |
 | **B** | Is the title record more concentrated than strength explains? | **Yes.** 14 unique champions vs. 20 predicted (95% CI 16–23); all five concentration statistics outside the interval, p ≤ 0.015 |
-| **B** | Is the simulation trustworthy? | **Yes.** MLE temperature γ = 1.1, and the reliability curve tracks the diagonal — teams given a 52% chance won 53% of the time |
+| **B** | Is the simulation trustworthy? | **Yes.** MLE temperature γ = 1.0, and the reliability curve tracks the diagonal — teams given a 52% chance won 53% of the time |
 | **C** | Where does the excess come from? | A multi-season effect. Per-season predictions are calibrated; what's missing is correlation of outcomes across seasons for the same franchise |
 | **C** | Is it one era? | Strongest in 1995–2009, **absent in 2010–2023** |
 | **D** | Can ML beat the simulation? | **No.** Random walk log-loss 0.171 vs. 0.172 (random forest) and 0.199 (gradient boosting) |
