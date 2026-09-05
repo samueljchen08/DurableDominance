@@ -23,6 +23,7 @@ effect rather than playoff luck.
 | **C** | Is it one era? | Strongest in 1995–2009, **absent in 2010–2023** |
 | **D** | Can ML beat the simulation? | **No.** Random walk log-loss 0.171 vs. 0.172 (random forest) and 0.199 (gradient boosting) |
 | **E** | Which sport is most dominated? | Tour de France (3.14×), then NCAA football (2.89×) and the NBA (2.23×) |
+| **F** | Do tight regular seasons crown new champions? | **Yes, narrowly.** All 8 primary tests point that way; 2 survive FDR. In college football's tightest third of seasons, 6% of champions were top-3 blue bloods vs 59% in the loosest third |
 
 Full write-up: [`reports/DOMINANCE_FINDINGS.md`](reports/DOMINANCE_FINDINGS.md)
 Methods: [`docs/METHODS.md`](docs/METHODS.md) ·

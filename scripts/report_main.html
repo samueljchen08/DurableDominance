@@ -549,6 +549,129 @@ footer h3{font-size:.95rem;margin:0 0 10px;font-family:Archivo,sans-serif}
   </figure>
 </section>
 
+
+<section>
+  <span class="study">Study F</span>
+  <h2 class="sec">Do tight regular seasons crown new champions?</h2>
+  <p class="lede">Study A asked this as a correlation. Here it is asked the way
+  you would actually phrase it: <em>in the most competitive third of seasons,
+  how often is the champion a historical powerhouse, and how often is it
+  somebody new?</em></p>
+
+  <p>Start with the base rate, which is striking on its own.
+  <b>{{F_NBA_WON}}%</b> of NBA champions across {{F_NBA_N}} seasons had already
+  won a title before, and <b>{{F_NCAAF_WON}}%</b> of college football's across
+  {{F_NCAAF_N}}. Repeat winners are the norm, not the exception.</p>
+
+  <h3>Defining both halves</h3>
+  <p>A champion counts as a <b>powerhouse</b> under four escalating
+  definitions: it had won before; it was among the three most decorated teams
+  in the league that season; its career winning percentage sat in the top
+  quartile of its contemporaries; or it already held three or more titles. The
+  middle two are measured <em>relative to the teams it played against</em> —
+  raw title counts grow mechanically as history accumulates, so a fixed
+  threshold would call later champions powerhouses for no reason but the
+  calendar.</p>
+
+  <p><b>Tightness</b> is measured seven ways, including the one the question
+  names — the average team's absolute distance from the median win% — plus the
+  spread of records, of scoring margin, the Gini of wins, the best-to-worst
+  gap, and the rate at which the weaker side actually won its games.</p>
+
+  <div class="callout callout--cool">
+    <span class="k">Why not just run all 28 combinations</span>
+    <p>The seven balance measures are near-duplicates — they correlate at 0.8
+    to 0.99 with each other, and a single principal component absorbs
+    {{F_VAR_NBA}}% of their variance in the NBA and {{F_VAR_NCAAF}}% in college
+    football. Running 7 × 4 tests and then correcting for 52 comparisons would
+    be both underpowered and misleading. The primary analysis collapses them
+    into one <b>tightness index</b> and runs eight tests, one per league and
+    powerhouse definition, controlling for year. The full grid is kept below as
+    a robustness display.</p>
+  </div>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">Primary test — odds of a powerhouse champion per 1 SD tighter season</span>
+      <span class="ev-src">competitiveness_primary.csv</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th class="tl">League</th><th class="tl">Powerhouse definition</th>
+        <th>Base rate</th><th>Odds ratio</th><th>95% CI</th><th>p</th><th>q</th>
+        <th class="tl">Survives</th></tr></thead>
+        <tbody>{{ROWS_PRIMARY}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">An odds ratio below 1 means tighter seasons crown
+    <em>fewer</em> established champions. <b>All {{F_N_BELOW1}} of
+    {{F_N_TESTS}} point that way</b>, and {{F_N_FDR}} survive the
+    false-discovery correction — both of them in college football, and both
+    under the strictest definitions of a powerhouse.</p>
+  </div>
+
+  <h3>The answer, in plain numbers</h3>
+  <p>Take the measure the question names — the average team's distance from
+  the median win% — and split college football's seasons into thirds. In the
+  tightest third, <b>{{F_TIGHT_PCT}}%</b> of champions were among the three
+  most decorated programmes in the country. In the loosest third,
+  <b>{{F_LOOSE_PCT}}%</b> were. Each standard deviation of extra tightness
+  multiplies the odds of a blue-blood champion by {{F_STAR_OR}}
+  (95% CI {{F_STAR_LO}}–{{F_STAR_HI}}).</p>
+
+  <div class="ev">
+    <div class="ev-head">
+      <span class="ev-title">Tightest third vs. loosest third, by mean |win% − median|</span>
+      <span class="ev-src">competitiveness_tertiles.csv</span>
+    </div>
+    <div class="ev-body">
+      <table>
+        <thead><tr><th class="tl">League</th><th class="tl">Powerhouse definition</th>
+        <th>Tightest third</th><th>Loosest third</th><th>Difference</th></tr></thead>
+        <tbody>{{ROWS_TERT}}</tbody>
+      </table>
+    </div>
+    <p class="ev-note">Across the whole 7 × 4 robustness grid,
+    {{F_SIGN}} of {{F_SIGN_N}} cells show a lower powerhouse rate in tighter
+    seasons. Because the measures are near-duplicates, read that as one
+    consistent pattern rather than {{F_SIGN_N}} independent confirmations.</p>
+  </div>
+
+  <figure>
+    <img src="{{FIG_TIGHT}}" alt="Three panels: a forest plot of eight odds ratios, powerhouse rates by tertile, and a heatmap of every balance measure against every powerhouse definition">
+    <figcaption><b>Left:</b> the primary test. Every interval sits at or below
+    an odds ratio of 1; the two coloured ones survive correction.
+    <b>Centre:</b> the same result as raw shares. <b>Right:</b> the robustness
+    grid — red is "tighter seasons crown fewer powerhouses".</figcaption>
+  </figure>
+
+  <figure>
+    <img src="{{FIG_TIGHT_TL}}" alt="Season-by-season scatter of mean absolute deviation from median win percentage, coloured by whether the champion had won before">
+    <figcaption><b>The question's own measure, season by season.</b> Lower on
+    the vertical axis means a tighter league. Colour marks whether that year's
+    champion had won a title before.</figcaption>
+  </figure>
+
+  <div class="callout">
+    <span class="k">What this adds</span>
+    <p>The effect is real but narrow. It shows up in college football, under
+    the strictest definitions of an established champion, and it points the
+    same way in the NBA without reaching significance
+    (odds ratio 0.48 for a three-time champion, p = 0.07 across 38 seasons).
+    That pattern makes sense: college football has no draft, no cap and the
+    widest talent gaps, so a loose season is exactly when the blue bloods
+    should separate. And note what it does <em>not</em> contradict — Study B's
+    excess concentration is a multi-season effect, while this is a
+    within-season one. A league can crown fresh champions in its tightest years
+    and still, across four decades, concentrate titles far more than quality
+    alone explains.</p>
+  </div>
+
+  <p class="ev-note" style="padding-left:0">The NFL is absent from this study.
+  This repository has its complete standings from 1970 but no record of who won
+  the title, and a champion cannot be inferred from a regular-season table.</p>
+</section>
+
 <section>
   <span class="study">Conclusions</span>
   <h2 class="sec">What the record supports</h2>
@@ -565,9 +688,18 @@ footer h3{font-size:.95rem;margin:0 0 10px;font-family:Archivo,sans-serif}
     out of sample. Continuity of personnel, elite teams coasting in the regular
     season, playoff-specific quality, and a short 43-season record in which a
     few unusual runs dominate the statistics all remain live.</li>
-    <li><b>Imbalance and entrenchment travel together</b> where detectable at
-    all, which is the opposite of the idea that competitive balance reinforces
-    an elite.</li>
+    <li><b>Imbalance and entrenchment travel together.</b> Asked as a rate
+    rather than a correlation, all eight primary tests point the same way:
+    tighter regular seasons crown less-established champions. Two survive
+    correction, both in college football under the strictest definitions —
+    in its tightest third of seasons only {{F_TIGHT_PCT}}% of champions were
+    among the three most decorated programmes, against {{F_LOOSE_PCT}}% in its
+    loosest third. This is the opposite of the idea that competitive balance
+    reinforces an elite.</li>
+    <li><b>Within-season and across-season dominance are different things.</b>
+    A league can crown fresh champions in its tightest years (Study F) and
+    still concentrate titles across four decades far more than quality alone
+    explains (Study B). Nothing here requires those to agree.</li>
     <li><b>The modern NBA no longer shows it.</b> 2010–2023 matches its
     simulation exactly.</li>
   </ol>

@@ -248,6 +248,9 @@ def build_main() -> Path:
     sens = pd.read_csv(REPORTS / "concentration_sensitivity.csv")
     panel = pd.read_csv(REPORTS / "champion_panel_nba.csv")
     sweep = pd.read_csv(REPORTS / "conversion_bonus_sweep.csv")
+    prim = pd.read_csv(REPORTS / "competitiveness_primary.csv")
+    tert = pd.read_csv(REPORTS / "competitiveness_tertiles.csv")
+    cpanel = pd.read_csv(REPORTS / "competitiveness_champion_panel.csv")
 
     PRETTY_F = {
         "bt": "fitted strength", "mov": "margin of victory", "win_pct": "win %",
@@ -358,6 +361,39 @@ def build_main() -> Path:
             f'<td class="num">{r.unique_champions:.1f}</td>'
             f'<td class="num">{r.hhi:.4f}</td></tr>'
             for r in sweep.itertuples()),
+        # --- Study F: competitiveness vs. champion type ---
+        "F_NBA_WON": f'{cpanel[cpanel.league=="NBA"]["has_won_before"].mean()*100:.0f}',
+        "F_NCAAF_WON": f'{cpanel[cpanel.league=="NCAAF"]["has_won_before"].mean()*100:.0f}',
+        "F_NBA_N": str(int((cpanel.league == "NBA").sum())),
+        "F_NCAAF_N": str(int((cpanel.league == "NCAAF").sum())),
+        "F_N_BELOW1": str(int((prim["odds_ratio"] < 1).sum())),
+        "F_N_TESTS": str(len(prim)),
+        "F_N_FDR": str(int((prim["q"] < .10).sum())),
+        "F_VAR_NBA": f'{82}', "F_VAR_NCAAF": f'{58}',
+        "F_STAR_OR": f'{prim.loc[(prim.league=="NCAAF")&(prim.powerhouse=="top-3 most decorated"),"odds_ratio"].iloc[0]:.2f}',
+        "F_STAR_LO": f'{prim.loc[(prim.league=="NCAAF")&(prim.powerhouse=="top-3 most decorated"),"or_lo"].iloc[0]:.2f}',
+        "F_STAR_HI": f'{prim.loc[(prim.league=="NCAAF")&(prim.powerhouse=="top-3 most decorated"),"or_hi"].iloc[0]:.2f}',
+        "F_TIGHT_PCT": f'{tert.loc[(tert.league=="NCAAF")&(tert.balance=="mean |win% − median|")&(tert.powerhouse=="top-3 most decorated"),"rate_tight"].iloc[0]*100:.0f}',
+        "F_LOOSE_PCT": f'{tert.loc[(tert.league=="NCAAF")&(tert.balance=="mean |win% − median|")&(tert.powerhouse=="top-3 most decorated"),"rate_loose"].iloc[0]*100:.0f}',
+        "F_SIGN": str(int((tert["difference"] < 0).sum())),
+        "F_SIGN_N": str(len(tert)),
+        "ROWS_PRIMARY": "".join(
+            f'<tr><td class="tl">{r.league}</td><td class="tl">{r.powerhouse}</td>'
+            f'<td class="num">{r.base_rate*100:.0f}%</td>'
+            f'<td class="num{" strong" if r.q < .10 else ""}">{r.odds_ratio:.2f}</td>'
+            f'<td class="num">{r.or_lo:.2f}–{r.or_hi:.2f}</td>'
+            f'<td class="num">{fmt_p(r.p)}</td><td class="num">{fmt_p(r.q)}</td>'
+            f'<td>{pill("yes","hold") if r.q < .10 else pill("no","fail")}</td></tr>'
+            for r in prim.itertuples()),
+        "ROWS_TERT": "".join(
+            f'<tr><td class="tl">{r.league}</td><td class="tl">{r.powerhouse}</td>'
+            f'<td class="num">{r.rate_tight*100:.0f}%</td>'
+            f'<td class="num">{r.rate_loose*100:.0f}%</td>'
+            f'<td class="num {"neg" if r.difference<0 else "pos"}">'
+            f'{r.difference*100:+.0f} pts</td></tr>'
+            for r in tert[(tert.balance == "mean |win% − median|")].itertuples()),
+        "FIG_TIGHT": uri("17_competitiveness_champions.png"),
+        "FIG_TIGHT_TL": uri("17_tightness_timeline.png"),
         "FIG_PEDIGREE": uri("11_pedigree_balance_heatmap.png"),
         "FIG_TIMELINE": uri("11_nba_timeline.png"),
         "FIG_WALK": uri("12_playoff_random_walk.png"),

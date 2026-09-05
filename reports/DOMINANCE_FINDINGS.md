@@ -257,3 +257,78 @@ observable in the data.
 * **More leagues with verified champions.** The NBA is one league and 43
   seasons; the concentration test needs long records to have power, which is
   why the era splits individually do not reach significance.
+
+---
+
+## Study F — Do tight regular seasons crown new champions?
+
+Study A asked this as a correlation. This asks it as a rate: in the most
+competitive third of seasons, how often is the champion a historical
+powerhouse?
+
+**The base rate first.** 71% of NBA champions across 38 seasons had already
+won a title; 67% of college football's across 49. Repeat winners are the norm.
+
+**Definitions.** A champion counts as a powerhouse under four escalating
+tests — it had won before; it was among the three most decorated teams that
+season; its career win% sat in the top quartile of its contemporaries; or it
+already held three or more titles. The middle two are measured relative to
+contemporaries, because raw title counts grow mechanically with time.
+
+Tightness is measured seven ways, including the one the question names (mean
+absolute distance from the median win%), plus the spread of records and of
+scoring margin, the Gini of wins, the best-to-worst gap, and the upset rate.
+
+**Why not 28 separate tests.** The balance measures correlate at 0.8-0.99;
+one principal component absorbs 82% of their variance in the NBA and 58% in
+college football. The primary analysis collapses them into a single tightness
+index and runs eight logistic regressions — one per league and powerhouse
+definition, controlling for year.
+
+### Primary test
+
+Odds of a powerhouse champion per 1 SD tighter season:
+
+| League | Powerhouse definition | Base rate | Odds ratio | 95% CI | p | q |
+|---|---|---|---|---|---|---|
+| NBA | had won before | 71% | 0.93 | 0.43–2.00 | 0.855 | 0.855 |
+| NBA | top-3 most decorated | 42% | 0.71 | 0.33–1.50 | 0.366 | 0.488 |
+| NBA | top-quartile career win% | 47% | 0.71 | 0.34–1.47 | 0.350 | 0.488 |
+| NBA | already had 3+ titles | 37% | 0.48 | 0.22–1.07 | 0.072 | 0.191 |
+| NCAAF | had won before | 67% | 0.74 | 0.34–1.60 | 0.442 | 0.505 |
+| **NCAAF** | **top-3 most decorated** | 29% | **0.27** | 0.11–0.66 | **0.004** | **0.033** |
+| NCAAF | top-quartile career win% | 90% | 0.44 | 0.09–2.09 | 0.298 | 0.488 |
+| **NCAAF** | **already had 3+ titles** | 20% | **0.26** | 0.09–0.76 | **0.014** | **0.057** |
+
+**All eight point the same way.** Two survive the false-discovery correction,
+both in college football and both under the strictest definitions.
+
+### In plain numbers
+
+Splitting college football's seasons into thirds by the average team's
+distance from the median win%:
+
+| | Tightest third | Loosest third |
+|---|---|---|
+| champion was a top-3 decorated programme | **6%** | **59%** |
+
+Across the full 7 × 4 robustness grid, 34 of 52 cells show a lower powerhouse
+rate in tighter seasons. Because the measures are near-duplicates, that is one
+consistent pattern rather than 34 independent confirmations.
+
+### Reading it
+
+The effect is real but narrow: college football, strictest definitions,
+directionally the same in the NBA without reaching significance (odds ratio
+0.48 for a three-time champion, p = 0.07 over 38 seasons). That fits the
+institutions — college football has no draft, no cap and the widest talent
+gaps, so a loose season is exactly when the blue bloods should separate.
+
+It does not contradict Study B. That excess concentration is an
+*across-season* effect; this is a *within-season* one. A league can crown
+fresh champions in its tightest years and still concentrate titles across four
+decades far more than quality alone explains.
+
+**The NFL is excluded.** This repo has its complete standings from 1970 but no
+record of who won the title, and a champion cannot be inferred from a
+regular-season table.
