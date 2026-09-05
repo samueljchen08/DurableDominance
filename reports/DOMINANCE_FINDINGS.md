@@ -69,8 +69,11 @@ exactly with the standings (82 games per team, zero mismatches).
 ### The model is calibrated
 
 Scaling every strength gap by a temperature `γ` and maximising the likelihood
-of the 43 real champions gives **γ = 1.1** — the raw fitted gaps are already
-right, with the likelihood flat between 0.9 and 1.2.
+of the 43 real champions gives **γ = 1.0** — the raw fitted gaps need no
+adjustment. The likelihood is flat from 0.8 to 1.4 (within 2 log-likelihood
+units), so this pins the scale only loosely; what matters is that 1.0 sits
+comfortably inside that range rather than at an edge. The reliability curve
+below is the sharper check.
 
 | Predicted title probability | Observed rate | n |
 |---|---|---|

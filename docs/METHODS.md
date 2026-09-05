@@ -46,10 +46,10 @@ difference reflects the teams rather than a rule change.
 ## Calibration
 
 Every strength gap is scaled by a temperature γ, and γ is chosen to maximise
-the likelihood of the 43 champions that actually happened. The MLE is γ = 1.1,
-with the likelihood flat from 0.9 to 1.2 — the raw fitted gaps are already
-right. The reliability curve is the honest diagnostic and tracks the diagonal
-across all six probability bins.
+the likelihood of the 43 champions that actually happened. The MLE is γ = 1.0
+— the raw fitted gaps need no adjustment — but the likelihood is flat from 0.8
+to 1.4, so this identifies the scale only loosely. The reliability curve is the
+sharper diagnostic and tracks the diagonal across all six probability bins.
 
 ## The concentration test
 
